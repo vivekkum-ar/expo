@@ -84,7 +84,11 @@ class DatabaseLauncher(
     // verify that we have all assets on disk
     // according to the database, we should, but something could have gone wrong on disk
     val launchAsset = database.updateDao().loadLaunchAsset(launchedUpdate!!.id)
-    if (launchAsset.relativePath == null) {
+    if (launchAsset == null) {
+      // Issue #28168, handle case where launch asset is not found in DB
+      this.callback!!.onFailure(Exception("launchAsset was not found in DB; this should never happen"))
+    }
+    if (launchAsset?.relativePath == null) {
       throw AssertionError("Launch Asset relativePath should not be null")
     }
 
