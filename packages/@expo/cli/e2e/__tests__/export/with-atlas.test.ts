@@ -14,17 +14,21 @@ describe('exports static with atlas file', () => {
 
   beforeAll(
     async () => {
-      await execa('node', [bin, 'export', '-p', 'web', '--output-dir', outputName], {
-        cwd: projectRoot,
-        env: {
-          NODE_ENV: 'production',
-          EXPO_USE_STATIC: 'static',
-          E2E_ROUTER_SRC: 'url-polyfill',
-          E2E_ROUTER_ASYNC: 'development',
-          EXPO_USE_FAST_RESOLVER: 'true',
-          EXPO_UNSTABLE_ATLAS: 'true',
-        },
-      });
+      await execa(
+        'node',
+        [bin, 'export', '-p', 'web', '--output-dir', outputName, '--max-workers', '1'],
+        {
+          cwd: projectRoot,
+          env: {
+            NODE_ENV: 'production',
+            EXPO_USE_STATIC: 'static',
+            E2E_ROUTER_SRC: 'url-polyfill',
+            E2E_ROUTER_ASYNC: 'development',
+            EXPO_USE_FAST_RESOLVER: 'true',
+            EXPO_UNSTABLE_ATLAS: 'true',
+          },
+        }
+      );
     },
     // Could take 45s depending on how fast the bundler resolves
     560 * 1000
